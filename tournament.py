@@ -1,7 +1,7 @@
 # coding: utf-8
 # license: GPLv3
+from hero import Hero
 from enemies import *
-from hero import *
 
 def annoying_input_int(message =''):
     answer = None
@@ -15,7 +15,7 @@ def annoying_input_int(message =''):
 
 def game_tournament(hero, dragon_list):
     for dragon in dragon_list:
-        print('Вышел', dragon._color, 'дракон!')
+        print('Вышел', dragon._color, 'противник!')
         while dragon.is_alive() and hero.is_alive():
             print('Вопрос:', dragon.question())
             answer = annoying_input_int('Ответ:')
@@ -32,7 +32,8 @@ def game_tournament(hero, dragon_list):
 
     if hero.is_alive():
         print('Поздравляем! Вы победили!')
-        print('Ваш накопленный опыт:', hero._experience)
+        print('Ваш накопленный опыт: ', hero._experience)
+        print("Ваш уровень: ", hero.level)
     else:
         print('К сожалению, Вы проиграли...')
 

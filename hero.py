@@ -31,7 +31,7 @@ class Hero(Attacker):
         self._experience: int = 0
 
     def attack(self, target: Optional[str] = None) -> None:
-        super().attack(target=None)
+        super().attack(target)
 
     def level_up(self) -> None:
         """

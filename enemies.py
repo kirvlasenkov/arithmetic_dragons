@@ -1,11 +1,12 @@
 # coding: utf-8
 # license: GPLv3
 
+from scipy import integrate
 from gameunit import Attacker
 from random import choice, randint
-from typing import Union, List
-from scipy.misc import derivative
+from typing import Union, List, Tuple
 import numpy as np
+
 
 
 class Enemy(Attacker):
@@ -40,6 +41,7 @@ class Dragon(Enemy):
     '''
     Superclass for dragons.
     '''
+
     def set_answer(self, answer) -> None:
         '''
         Set an actual answer received from user.
@@ -66,6 +68,7 @@ class GreenDragon(Dragon):
     Dragon, which produce mathematical problems,
     connected with addition.
     '''
+
     def __init__(self):
         self._health = 200
         self._attack = 10
@@ -84,6 +87,7 @@ class RedDragon(Dragon):
     Dragon, which produce mathematical problems,
     connected with subtraction.
     '''
+
     def __init__(self):
         self._health = 200
         self._attack = 10
@@ -102,6 +106,7 @@ class BlackDragon(Dragon):
     Dragon, which produce mathematical problems,
     connected with multiplication.
     '''
+
     def __init__(self):
         self._health = 200
         self._attack = 10
@@ -120,19 +125,51 @@ class DifferentialDragon(Dragon):
     Dragon, which produce mathematical problems,
     connected with differential calculus.
     '''
+
     def __init__(self):
         self._health = 200
         self._attack = 10
         self._color = 'differential'
 
     @staticmethod
-    def polynom(x: Union[int, float], degree: int = 2,):
-        poly_coefs = [randint(0, 6) for _ in range(degree)]
-        ans = 0
-        for _ in range(len(poly_coefs)):
-            ans +=
+    def polynomial(x: Union[int, float]) -> Tuple[Union[int, float], List[int]]:
+        """
+        Produce polynomial with real random coefficients.
+        Returns value of poly derivative in definite point, list of original poly
+        :param x: definite point
+        :degree: degree of a polynomial
+        """
+        degree = randint(0, 5)
+        poly_coef = [randint(0, 20) for _ in range(degree + 1)]
+        poly_der_coef = np.polyder(poly_coef)
+        value = 0
+        for i in range(len(poly_der_coef)):
+            value += poly_der_coef[i] * x ** i
+
+        return (value, poly_coef)
 
     def question(self):
+        func_type = choice(["sin", "cos", "real polynomial"])
+
+        if func_type == 'sin':
+            x = choice(np.arange(0, 2*np.pi, np.pi/3))
+            self.__quest = "sin(x) at point {}".format(x)
+            self.set_answer(np.cos(x))
+
+        if func_type == 'cos':
+            x = choice(np.arange(0, 2*np.pi, np.pi/3))
+            self.__quest = "cos(x) at point {}".format(choice(np.arange(0, 2*np.pi, np.pi/3)))
+            self.set_answer(-np.sin(x))
+
+        if func_type == 'real polynomial':
+            x = randint(0, 100)
+            answer, poly_coefs = DifferentialDragon.polynomial(x)
+            self.__quest = "solve derivative value of polynomial in" \
+                           " {} with coefficients: {}".format(x, poly_coefs)
+            self.set_answer(answer)
+
+        return self.__quest
+
 
 
 class IntegralDragon(Dragon):
@@ -140,10 +177,14 @@ class IntegralDragon(Dragon):
     Dragon, which produce mathematical problems,
     connected with integral calculus.
     '''
+
     def __init__(self):
         self._health = 200
         self._attack = 10
         self._color = 'integral'
+
+    # FIXME Данила, реализуй меня!!!, я интеграл Римана одной переменной на отрезке!!!
+    # FIXME Hint: юзай scipy.integrate
 
     pass
 
@@ -155,9 +196,15 @@ class Troll(Enemy):
     def check_answer(self, answer):
         return answer == self.__answer
 
+    def __init__(self):
+        self._health = 250
+        self._attack = 20
+        self._color = "ogre"
 
-# FIXME здесь также должны быть описаны классы RedDragon и BlackDragon
-# красный дракон учит вычитанию, а чёрный -- умножению.
+    def question(self):
+        pass
+
+
 
 
 enemy_types = [GreenDragon, RedDragon, BlackDragon,
