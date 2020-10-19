@@ -4,16 +4,18 @@
 from scipy import integrate
 from gameunit import Attacker
 from random import choice, randint
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Optional
 import numpy as np
-
 
 
 class Enemy(Attacker):
     """
     Abstract class for the declaring enemy group.
     """
-    pass
+
+    @property
+    def cheat(self):
+        return self._cheat_code
 
 
 def generate_random_enemy():
@@ -81,6 +83,8 @@ class GreenDragon(Dragon):
         self.set_answer(x + y)
         return self.__quest
 
+    _cheat_code = -1
+
 
 class RedDragon(Dragon):
     '''
@@ -99,6 +103,8 @@ class RedDragon(Dragon):
         self.__quest = str(x) + ' - ' + str(y)
         self.set_answer(x - y)
         return self.__quest
+
+    _cheat_code = -2
 
 
 class BlackDragon(Dragon):
@@ -119,6 +125,8 @@ class BlackDragon(Dragon):
         self.set_answer(x * y)
         return self.__quest
 
+    _cheat_code = -3
+
 
 class DifferentialDragon(Dragon):
     '''
@@ -130,6 +138,7 @@ class DifferentialDragon(Dragon):
         self._health = 200
         self._attack = 10
         self._color = 'differential'
+        self._cheat_code = -4
 
     @staticmethod
     def polynomial(x: Union[int, float]) -> Tuple[Union[int, float], List[int]]:
@@ -152,13 +161,13 @@ class DifferentialDragon(Dragon):
         func_type = choice(["sin", "cos", "real polynomial"])
 
         if func_type == 'sin':
-            x = choice(np.arange(0, 2*np.pi, np.pi/3))
+            x = choice(np.arange(0, 2 * np.pi, np.pi / 3))
             self.__quest = "sin(x) at point {}".format(x)
             self.set_answer(np.cos(x))
 
         if func_type == 'cos':
-            x = choice(np.arange(0, 2*np.pi, np.pi/3))
-            self.__quest = "cos(x) at point {}".format(choice(np.arange(0, 2*np.pi, np.pi/3)))
+            x = choice(np.arange(0, 2 * np.pi, np.pi / 3))
+            self.__quest = "cos(x) at point {}".format(x)
             self.set_answer(-np.sin(x))
 
         if func_type == 'real polynomial':
@@ -169,7 +178,6 @@ class DifferentialDragon(Dragon):
             self.set_answer(answer)
 
         return self.__quest
-
 
 
 class IntegralDragon(Dragon):
@@ -185,6 +193,8 @@ class IntegralDragon(Dragon):
 
     # FIXME Данила, реализуй меня!!!, я интеграл Римана одной переменной на отрезке!!!
     # FIXME Hint: юзай scipy.integrate
+
+    _cheat_code = -5
 
     pass
 
@@ -204,7 +214,7 @@ class Troll(Enemy):
     def question(self):
         pass
 
-
+    _cheat_code = -6
 
 
 enemy_types = [GreenDragon, RedDragon, BlackDragon,
