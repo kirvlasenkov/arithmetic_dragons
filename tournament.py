@@ -24,6 +24,7 @@ def game_tournament(hero, dragon_list) -> None:
     Main process of the game. Let enemies out from there cages.
     :param hero: Hero class object. Used by the user.
     :param dragon_list: Randomly created list of enemies.
+    
     '''
     for dragon in dragon_list:
         print('Вышел', dragon._color, 'противник!')
