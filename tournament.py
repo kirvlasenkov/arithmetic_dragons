@@ -4,7 +4,7 @@ from hero import Hero
 from enemies import *
 
 
-def annoying_input_int(message=''):
+def annoying_input_int(message: str = '') -> int:
     '''
     Function, which need to create int-type restriction on input
     from keyboard.
@@ -19,11 +19,12 @@ def annoying_input_int(message=''):
     return answer
 
 
-def game_tournament(hero, dragon_list):
+def game_tournament(hero, dragon_list) -> None:
     '''
     Main process of the game. Let enemies out from there cages.
     :param hero: Hero class object. Used by the user.
     :param dragon_list: Randomly created list of enemies.
+    
     '''
     for dragon in dragon_list:
         print('Вышел', dragon._color, 'противник!')
@@ -56,7 +57,7 @@ def game_tournament(hero, dragon_list):
         print('К сожалению, Вы проиграли...')
 
 
-def start_game():
+def start_game() -> None:
     '''
     Process needed for testing.
     '''
