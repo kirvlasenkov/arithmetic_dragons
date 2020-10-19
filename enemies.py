@@ -199,7 +199,11 @@ class IntegralDragon(Dragon):
     pass
 
 
-class Troll(Enemy):
+class Troll(Dragon):
+    '''
+    Enemy, who can confuse hero by giving
+     a random number for choice
+    '''
     def set_answer(self, answer):
         self.__answer = answer
 
@@ -212,7 +216,10 @@ class Troll(Enemy):
         self._color = "ogre"
 
     def question(self):
-        pass
+        x = randint(1, 10)
+        self.__quest = "Guess the number between 1 and 10"
+        self.set_answer(x)
+        return self.__quest
 
     _cheat_code = -6
 
