@@ -276,7 +276,6 @@ class Troll(Dragon):
         return self.__quest
 
 
-
 enemy_types = [GreenDragon, RedDragon, BlackDragon,
                DifferentialDragon, IntegralDragon, Troll]
 cheat_list = ["never", "gonna", "give", "you", "up", "kek shrek"]
